@@ -1,3 +1,3 @@
 # 3DMaze
 
-# A"maze"ing maze game!
+A"maze"ing maze game!
