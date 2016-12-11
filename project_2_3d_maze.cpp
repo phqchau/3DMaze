@@ -16,6 +16,7 @@ a user can move
 #include <ctime>
 #include <iostream>
 
+#define floorTexture "2.bmp"
 #define PI 3.14159265
 
 //set the window height and width
@@ -157,7 +158,7 @@ void grid(void)
 
 // ---------- floor --------------
 
-void floor(int gridX, int gridY)
+void makeFloor(int gridX, int gridY)
 {
 	//scale the floor to appropriate size
 	glPushMatrix();
@@ -189,8 +190,6 @@ void display(void)
 	// set the initial camera
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	// double winHt = 1.0; // half-height of the window
-// 	glFrustum(-winHt*64/48.0, winHt*64/48.0, -winHt, winHt, 0.1, 100.0);
 	gluPerspective(87, 4/3, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -202,6 +201,8 @@ void display(void)
 	
 	grid();
 	
+	makeFloor(gridX, gridY);
+	
 	glFlush();
 }
 
@@ -212,10 +213,19 @@ void keys(unsigned char key, int x, int y)
 	double distance = 0.25;
 	switch(key){
 		case 'w':
-			eyeX += distance * cos(rotation);
-			eyeZ += distance * sin(rotation);
-			focusX += distance * cos(rotation);
-			focusZ += distance * sin(rotation);
+			playerX = eyeX + distance * cos(rotation);
+			playerZ = eyeZ + distance * sin(rotation);
+			if(maze[playerX][playerZ] == 1)
+			{
+				std::cout << "in a wall (" << playerX << ", "<< playerZ << ")\n";
+			}
+			else
+			{
+				eyeX += distance * cos(rotation);
+				eyeZ += distance * sin(rotation);
+				focusX += distance * cos(rotation);
+				focusZ += distance * sin(rotation);
+			}
 			if(keyDebug)
 			{
 				std::cout << rotation << " " << eyeX << "," << eyeZ;
@@ -236,10 +246,19 @@ void keys(unsigned char key, int x, int y)
 			glutPostRedisplay();
 			break;
 		case 's':
-			eyeX -= distance * cos(rotation);
-			eyeZ -= distance * sin(rotation);
-			focusX -= distance * cos(rotation);
-			focusZ -= distance * sin(rotation);
+			playerX = eyeX - distance * cos(rotation);
+			playerZ = eyeZ - distance * sin(rotation);
+			if(maze[playerX][playerZ] == 1)
+			{
+				std::cout << "in a wall (" << playerX << ", "<< playerZ << ")\n";
+			}
+			else
+			{
+				eyeX -= distance * cos(rotation);
+				eyeZ -= distance * sin(rotation);
+				focusX -= distance * cos(rotation);
+				focusZ -= distance * sin(rotation);
+			}
 			if(keyDebug)
 			{
 				std::cout << rotation << " " << eyeX << "," << eyeZ; 
