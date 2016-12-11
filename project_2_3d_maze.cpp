@@ -18,17 +18,21 @@ a user can move
 
 #define PI 3.14159265
 
-//toggle for debugging
-const bool debug = true;
+//toggles for debugging
+const bool gridDebug = false;
+const bool keyDebug = true;
 
 //set where to look
-static float eyeX = 75;
-static float eyeY = 75;
-static float eyeZ = 0;
+static float eyeX = 1.5;
+static float eyeY = 2.0;
+static float eyeZ = 1.5;
 static float focusX = 2.0;
 static float focusY = 0.5;
 static float focusZ = 1.5;
 static float rotation = 0;
+static float rotationAmt = PI / 12;
+static int playerX = eyeX;
+static int playerZ = eyeZ;
 
 //create the full grid
 const int gridX = 25;
@@ -124,7 +128,7 @@ void grid(void)
 	std::cout << "\n";
 	
 	//if debugging, print the numbers stored in the maze	
-	if(debug){
+	if(gridDebug){
 		for(int intX = 0; intX < gridX; intX++)
 		{
 			for(int intY = 0; intY < gridY; intY++)
@@ -205,20 +209,22 @@ void keys(unsigned char key, int x, int y)
 			eyeZ += distance * sin(rotation);
 			focusX += distance * cos(rotation);
 			focusZ += distance * sin(rotation);
-			if(!debug)
+			if(keyDebug)
 			{
 				std::cout << rotation << " " << eyeX << "," << eyeZ;
-				std::cout << " " << focusX << "," << focusZ;
+				std::cout << "\n " << focusX << "," << focusZ << "\n";
+				std::cout << playerX << " " << playerZ;
 			}
 			glutPostRedisplay();
 			break;
 		case 'a':
-			rotation -= PI / 2;
-			focusX = eyeX - cos(rotation);
-			focusZ = eyeZ - sin(rotation);
+			rotation -= rotationAmt;
+			focusX = eyeX + cos(rotation);
+			focusZ = eyeZ + sin(rotation);
+			if(keyDebug)
 			{
 				std::cout << rotation << " " << eyeX << "," << eyeZ;
-				std::cout << " " << focusX << "," << focusZ;
+				std::cout << "\n " << rotation / PI * 180 << "," << rotation  / PI * 180 ;
 			}
 			glutPostRedisplay();
 			break;
@@ -227,7 +233,7 @@ void keys(unsigned char key, int x, int y)
 			eyeZ -= distance * sin(rotation);
 			focusX -= distance * cos(rotation);
 			focusZ -= distance * sin(rotation);
-			if(debug)
+			if(keyDebug)
 			{
 				std::cout << rotation << " " << eyeX << "," << eyeZ; 
 				std::cout << " " << focusX << "," << focusZ;
@@ -235,13 +241,13 @@ void keys(unsigned char key, int x, int y)
 			glutPostRedisplay();
 			break;
 		case 'd':
-			rotation += PI / 2;
+			rotation += rotationAmt;
 			focusX = eyeX + cos(rotation);
 			focusZ = eyeZ + sin(rotation);
-			if(debug)
+			if(keyDebug)
 			{
 				std::cout << rotation << " " << eyeX << "," << eyeZ;
-				std::cout << " " << focusX << "," << focusZ;
+				std::cout << "\n " << rotation / PI * 180 << "," << rotation  / PI * 180 ;
 			}
 			glutPostRedisplay();
 			break;
@@ -272,6 +278,8 @@ int main(int argc, char **argv)
 	glClearColor(0.6f,0.6f,0.6f,0.0f); // background is light gray
 	glViewport(0, 0, 640, 480);
 	glutMainLoop();
+	
+	
 	
 	return(0);
 }
