@@ -18,19 +18,25 @@ a user can move
 
 #define PI 3.14159265
 
+//set the window height and width
+const float windowHeight = 480;
+const float windowWidth = 640;
+
 //toggles for debugging
 const bool gridDebug = false;
-const bool keyDebug = true;
+const bool keyDebug = false;
 
 //set where to look
 static float eyeX = 1.5;
-static float eyeY = 2.0;
+static float eyeY = 0.5;
 static float eyeZ = 1.5;
 static float focusX = 2.0;
 static float focusY = 0.5;
 static float focusZ = 1.5;
 static float rotation = 0;
 static float rotationAmt = PI / 12;
+
+
 static int playerX = eyeX;
 static int playerZ = eyeZ;
 
@@ -183,8 +189,9 @@ void display(void)
 	// set the initial camera
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	double winHt = 1.0; // half-height of the window
-	glFrustum(-winHt*64/48.0, winHt*64/48.0, -winHt, winHt, 0.1, 100.0);
+	// double winHt = 1.0; // half-height of the window
+// 	glFrustum(-winHt*64/48.0, winHt*64/48.0, -winHt, winHt, 0.1, 100.0);
+	gluPerspective(87, 4/3, 0.1, 100);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
@@ -264,7 +271,7 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE| GLUT_RGB| GLUT_DEPTH);
-	glutInitWindowSize(640,480);
+	glutInitWindowSize(windowWidth, windowHeight);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Our A'maze'ing Project 2");
 	//glutIdleFunc(update);
@@ -276,7 +283,7 @@ int main(int argc, char **argv)
 	glEnable(GL_DEPTH_TEST); // for hidden surface removal
 	glEnable(GL_NORMALIZE); // normalize vectors for proper shading
 	glClearColor(0.6f,0.6f,0.6f,0.0f); // background is light gray
-	glViewport(0, 0, 640, 480);
+	glViewport(0, 0, windowWidth, windowHeight);
 	glutMainLoop();
 	
 	
