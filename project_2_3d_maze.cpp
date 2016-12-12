@@ -24,7 +24,7 @@ const float windowHeight = 480;
 const float windowWidth = 640;
 
 //toggles for debugging
-const bool gridDebug = false;
+const bool gridDebug = true;
 const bool keyDebug = false;
 
 //set where to look
@@ -67,11 +67,22 @@ void createCubes(void)
 		for(int spotY = 0; spotY < gridY; spotY++)
 		{
 			//if there should be a cube there (1)
-			if(maze[spotX][spotY] == 1){
+			if(maze[spotX][spotY] == 1)
+			{
 				//create a cube there
 				glPushMatrix();
 				glTranslated(spotX + 0.5, 0.5, spotY + 0.5);
 				glutSolidCube(1.0);
+				glPopMatrix();
+			} 
+			//if its the winning spot (2)
+			else if(maze[spotX][spotY] == 2)
+			{
+				//create the sphere there
+				glPushMatrix();
+				glTranslated((spotX + 0.5), 0.5, (spotY + 0.5));
+				glScaled(0.4, 0.4, 0.4);
+				glutSolidSphere(0.2, 15, 15);
 				glPopMatrix();
 			}
 		}
@@ -94,11 +105,7 @@ void createSphere(void)
 			}
 		}
 		
-	glPushMatrix();
-	glTranslated((randX + 0.5), 0.5, (randY + 0.5));
-	glScaled(0.4, 0.4, 0.4);
-	glutSolidSphere(0.2, 15, 15);
-	glPopMatrix();
+	maze[randX][randY] = 2;
 	
 }
 
@@ -121,18 +128,16 @@ void grid(void)
 				{
 					maze[spotX][spotY] = 1;
 				}
-				else 
+				else if(rand() % 3 == 1)
 				{
-					if(rand() % 3 == 1)
-					{
-						maze[spotX][spotY] = 1;
-					}
+					maze[spotX][spotY] = 1;
 				}
 			}
 		}
+		
+		createSphere();
+		
 	}
-	
-	std::cout << "\n";
 	
 	//if debugging, print the numbers stored in the maze	
 	if(gridDebug){
@@ -151,8 +156,6 @@ void grid(void)
 	
 	//call to the creation of maze
 	createCubes();
-	
-	createSphere();
 	
 }
 
@@ -218,6 +221,11 @@ void keys(unsigned char key, int x, int y)
 			if(maze[playerX][playerZ] == 1)
 			{
 				std::cout << "in a wall (" << playerX << ", "<< playerZ << ")\n";
+			} 
+			else if(maze[playerX][playerZ] == 2)
+			{
+				std::cout << "You win!";
+				exit(0);
 			}
 			else
 			{
