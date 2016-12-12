@@ -134,8 +134,70 @@ void grid(void)
 				}
 			}
 		}
+        
+        
 		
 		createSphere();
+        
+    if (maze[spotX][spotY] == 0)
+				{
+					if((maze[spotX+1][spotY-1]==1)&&(maze[spotX+1][spotY]==1)&&(maze[spotX+1][spotY+1]==1))
+					{
+							if(rand() % 3 == 0)
+						{
+							maze[spotX+1][spotY-1] = 0;
+						} else if (rand() % 3 == 1)
+						{
+							maze[spotX+1][spotY] = 0;
+						} else if (rand() % 3 == 2)
+						{
+							maze[spotX+1][spotY+1] = 0;
+						}
+					}
+
+					if((maze[spotX-1][spotY-1]==1)&&(maze[spotX-1][spotY]==1)&&(maze[spotX-1][spotY+1]==1))
+					{
+							if(rand() % 3 == 0)
+						{
+							maze[spotX-1][spotY-1] = 0;
+						} else if (rand() % 3 == 1)
+						{
+							maze[spotX-1][spotY] = 0;
+						} else if (rand() % 3 == 2)
+						{
+							maze[spotX-1][spotY+1] = 0;
+						}
+					}
+
+					if((maze[spotX-1][spotY-1]==1)&&(maze[spotX][spotY-1]==1)&&(maze[spotX+1][spotY-1]==1))
+					{
+							if(rand() % 3 == 0)
+						{
+							maze[spotX-1][spotY-1] = 0;
+						} else if (rand() % 3 == 1)
+						{
+							maze[spotX][spotY-1] = 0;
+						} else if (rand() % 3 == 2)
+						{
+							maze[spotX+1][spotY-1] = 0;
+						}
+					}
+
+					if((maze[spotX-1][spotY+1]==1)&&(maze[spotX][spotY+1]==1)&&(maze[spotX+1][spotY+1]==1))
+					{
+							if(rand() % 3 == 0)
+						{
+							maze[spotX-1][spotY+1] = 0;
+						} else if (rand() % 3 == 1)
+						{
+							maze[spotX][spotY+1] = 0;
+						} else if (rand() % 3 == 2)
+						{
+							maze[spotX+1][spotY+1] = 0;
+						}
+					}
+
+				}
 		
 	}
 	
